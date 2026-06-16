@@ -4,7 +4,7 @@ This repository contains the complete computational workflow and Python pipeline
 
 ---
 
-## 📊 Pipeline Structure & Thesis Figures Mapping
+## 📊 Pipeline Structure & Figures Mapping
 
 The analysis workflow is executed sequentially across 8 individual Jupyter Notebooks hosted in the root directory. For proper logical progression and full analytical reproducibility, they align with the following functional layers:
 
