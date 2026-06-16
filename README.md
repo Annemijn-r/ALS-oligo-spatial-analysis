@@ -33,7 +33,7 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
         * *Figure 8:* Comparative path-level bar plot highlighting differential effect sizes between LCT and Dorsal columns.
         * *Figure 9:* Coordinate scatter plot: LCT vs. Ventral tracking individual genes grouped by pathway.
         * *Figure 10:* Comparative path-level bar plot highlighting differential effect sizes between LCT and Ventral columns.
-        * *Figure 11:* Combined multi-region bar plot summarizing the average $\log_2\text{Fold Change}$ ($\log_2\text{FC}$) across all target pathways per region.
+        * *Figure 11:* Combined multi-region bar plot summarizing the average $\log_2\text{FC}$ across all target pathways per region.
 
 ### 3. Local Microenvironment & Structural Dynamics
 * **`Inflamed_vs_non-inflamed_spatial.py`** *(Script 6)*
@@ -55,7 +55,7 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
     * Focuses exclusively on the oligodendrocyte lineage, running targeted differential testing across mature oligodendrocyte structural components, oligodendrocyte precursor cell (OPC) markers, and local cholesterol/lipid synthesis pathways.
     * **📊 Figures Generated:**
         * *Figure 21:* Combined bar plot showing the average $\log_2\text{FC}$ shifts per designated oligodendrocyte functional category across all three white matter territories (LCT, Dorsal, Ventral).
-        * *Figure 22:* High-resolution individual gene expression heatmap tracking log2FC values across all genes in the customized oligodendrocyte panel.
+        * *Figure 22:* High-resolution individual gene expression heatmap tracking $\log_2\text{FC}$ values across all genes in the customized oligodendrocyte panel.
 
 ---
 
