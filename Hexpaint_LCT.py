@@ -29,11 +29,9 @@ SAMPLE    = 'S09-055'    # Sample ID
 CONDITION = 'ALS'        # 'ALS' or 'Control'
 # ════════════════════════════════════════════════════════════════════════════════
 
-# ── Paths (Universal & GitHub-Proof) ──────────────────────────────────────────
-# Bepaal de hoofdmap waar dit notebook zich bevindt
+# Decide the headmap where this script is stored
 BASE_DIR = os.getcwd()
 
-# Relatieve paden die werken op élke computer
 INPUT_PATH = os.path.join(BASE_DIR, "Hexbin_data")
 
 if CONDITION == 'ALS':
@@ -43,7 +41,6 @@ else:
     OUTPUT_PATH = os.path.join(BASE_DIR, "output", "Region_clusters", "Healthy_hexpaint", "LCT")
     FILE_PREFIX = f"healthy_{SAMPLE}"
 
-# Maak de mappen automatisch aan als ze nog nu nog niet bestaan
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 # ── Rotation angle per sample ─────────────────────────────────────────────────
@@ -64,7 +61,7 @@ print(f"{'='*55}")
 
 raw_file = os.path.join(INPUT_PATH, f'{SAMPLE}_hexbin_50.csv.gz')
 if not os.path.exists(raw_file):
-    raise FileNotFoundError(f"Raw data not found: {raw_file}\nZorg ervoor dat de map 'Hexbin_data' in dezelfde map staat als dit notebook.")
+    raise FileNotFoundError(f"Raw data not found: {raw_file}")
 
 df = pd.read_csv(raw_file, compression='gzip')
 hexbins = df.drop_duplicates(subset='hexbin_id')[
