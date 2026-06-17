@@ -9,7 +9,7 @@ This repository contains the complete computational workflow and Python pipeline
 The analysis workflow is executed sequentially across 8 individual Jupyter Notebooks hosted in the root directory. For proper logical progression and full analytical reproducibility, they align with the following functional layers:
 
 ### 1. Spatial Selection & Region Extraction (Interactive Segmentations)
-* **[`Hexpaint_LCT.py`](./Hexpaint_LCT.py)**
+* **[`Hexpaint_LCT.py`](./Scripts/Hexpaint_LCT.py)**
     * Processes raw spatial spot coordinates and utilizes an interactive Napari workflow to manually segment, isolate, and extract transcript counts specifically corresponding to the **Lateral Corticospinal Tract (LCT)** white matter region.
 * **[`Hexpaint_dorsal.py`](./Hexpaint_dorsal.py)**
     * Isolates spatial coordinates and anatomical expression arrays mapping exclusively to the **dorsal white matter** columns.
