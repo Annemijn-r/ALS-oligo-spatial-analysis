@@ -11,13 +11,13 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
 ### 1. Spatial Selection & Region Extraction (Interactive Segmentations)
 * **[`Hexpaint_LCT.py`](./Scripts/Hexpaint_LCT.py)**
     * Processes raw spatial spot coordinates and utilizes an interactive Napari workflow to manually segment, isolate, and extract transcript counts specifically corresponding to the **Lateral Corticospinal Tract (LCT)** white matter region.
-* **[`Hexpaint_dorsal.py`](./Hexpaint_dorsal.py)**
+* **[`Hexpaint_dorsal.py`](./Scripts/Hexpaint_dorsal.py)**
     * Isolates spatial coordinates and anatomical expression arrays mapping exclusively to the **dorsal white matter** columns.
-* **[`Hexpaint_ventral.py`](./Hexpaint_ventral.py)**
+* **[`Hexpaint_ventral.py`](./Scripts/Hexpaint_ventral.py)**
     * Isolates spatial coordinates and coordinate arrays mapping exclusively to the **ventral white matter** columns.
 
 ### 2. Differential Expression Analysis (PyDESeq2) & Regional Variations
-* **[`DEG_LCT_analysis.py`](./DEG_LCT_analysis.py)** *(Script 4)*
+* **[`DEG_LCT_analysis.py`](./Scripts/DEG_LCT_analysis.py)** *(Script 4)*
     * Executes high-throughput pseudo-bulk differential gene expression (DEG) profiling using `PyDESeq2` comparing ALS vs. Control samples within the primary LCT tract.
     * **📊 Figures Generated:**
         * *Figure 1:* Volcano plot highlighting globally significant DEGs.
@@ -26,7 +26,7 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
         * *Figure 4:* Expression heatmap of the top 15 most variable DEGs across conditions.
         * *Figure 5:* Gene-specific boxplots tracking normalized expression shifts in counts per million (CPM).
         * *Figure 6:* Multi-panel bar chart contrasting localized inflammation metrics against axonal and metabolic integrity markers.
-* **[`Regional_comparison.py`](./Regional_comparison.py)** *(Script 5)*
+* **[`Regional_comparison.py`](./Scripts/Regional_comparison.py)** *(Script 5)*
     * Performs macro-level parametric and non-parametric group comparisons across the different white matter tracts to establish the unique spatial vulnerability profile of the LCT.
     * **📊 Figures Generated:**
         * *Figure 7:* Coordinate scatter plot: LCT vs. Dorsal tracking individual genes grouped by pathway.
@@ -36,7 +36,7 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
         * *Figure 11:* Combined multi-region bar plot summarizing the average $\log_2\text{FC}$ across all target pathways per region.
 
 ### 3. Local Microenvironment & Structural Dynamics
-* **[`Inflamed_vs_non-inflamed_spatial.py`](./Inflamed_vs_non-inflamed_spatial.py)** *(Script 6)*
+* **[`Inflamed_vs_non-inflamed_spatial.py`](./Scripts/Inflamed_vs_non-inflamed_spatial.py)** *(Script 6)*
     * Dissects the micro-spatial tissue architecture by separating spots into distinct inflamed and non-inflamed configurations based on regional cluster dominance to observe localized degradation.
     * **📊 Figures Generated:**
         * *Figure 12:* Cluster composition analysis demonstrating the structural dominance of cellular Cluster 6 in ALS tissues.
@@ -44,14 +44,14 @@ The analysis workflow is executed sequentially across 8 individual Jupyter Noteb
         * *Figure 14:* Regional category summary comparing the percentage of hexbins classified under specific inflammatory categories.
         * *Figure 15:* Non-parametric Mann-Whitney $U$ test distributions assessing metabolic stress parameters and microglia score variances between tracking clusters (Cluster 4 vs. Cluster 6).
         * *Figure 16:* Integrated dual-panel graphics presenting an expression heatmap juxtaposed with a forest plot evaluating gene patterns across inflamed vs. non-inflamed zones.
-* **[`Spearman_correlations.py`](./Spearman_correlations.py)** *(Script 7)*
+* **[`Spearman_correlations.py`](./Scripts/Spearman_correlations.py)** *(Script 7)*
     * Runs hexbin-level non-parametric Spearman correlation matrices to track the direct co-expression patterns between active microglia drivers (`CHIT1`, `LYZ`) and localized axonal stress targets.
     * **📊 Figures Generated:**
         * *Figure 17:* Matrix of scatter plots tracking Microglia × Axonal gene expression across pooled conditions.
         * *Figure 18:* Slope plot tracking sample-specific changes in Spearman $\rho$ values during the functional shift from Non-inflamed $\rightarrow$ Inflamed configurations.
         * *Figure 19:* Consolidated Spearman correlation heatmap broken down by local tissue groupings (All / Inflamed / Non-inflamed).
         * *Figure 20:* Dual-panel bar chart displaying Fisher's $z$-test statistics comparing ALS vs. Control Spearman $\rho$ variances to determine correlation significance.
-* **[`Oligodendrocytes.py`](./Oligodendrocytes.py)** *(Script 8)*
+* **[`Oligodendrocytes.py`](./Scripts/Oligodendrocytes.py)** *(Script 8)*
     * Focuses exclusively on the oligodendrocyte lineage, running targeted differential testing across mature oligodendrocyte structural components, oligodendrocyte precursor cell (OPC) markers, and local cholesterol/lipid synthesis pathways.
     * **📊 Figures Generated:**
         * *Figure 21:* Combined bar plot showing the average $\log_2\text{FC}$ shifts per designated oligodendrocyte functional category across all three white matter territories (LCT, Dorsal, Ventral).
