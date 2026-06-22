@@ -252,7 +252,7 @@ def fig_volcano(results, top_genes):
 
     ax.axhline(-np.log10(0.05), color='red', ls='--', lw=0.8, alpha=0.6)
     ax.axvline(0, color='black', lw=0.6)
-    ax.set_xlabel('log2 Fold Change (ALS vs Control)', fontsize=11)
+    ax.set_xlabel('log2FC (ALS vs Control)', fontsize=11)
     ax.set_ylabel('-log10(padj)', fontsize=11)
     ax.set_title('Volcano Plot: ALS vs Control (LCT)', fontsize=13, fontweight='bold')
     ax.legend(fontsize=9)
@@ -285,7 +285,7 @@ def fig_ma(results, top_genes):
 
     ax.axhline(0, color='black', ls='--', lw=0.8)
     ax.set_xlabel('Mean Expression (log10 baseMean + 1)', fontsize=11)
-    ax.set_ylabel('log2 Fold Change', fontsize=11)
+    ax.set_ylabel('log2FC', fontsize=11)
     ax.set_title('MA Plot: ALS vs Control (LCT)', fontsize=13, fontweight='bold')
     ax.legend(fontsize=9)
     save(fig, 'Figure2_MA_plot.png')
@@ -502,7 +502,7 @@ def fig_deg_bars(results, top_genes, up_genes, down_genes):
                 fontsize=9, fontweight='bold')
 
     ax.axvline(0, color='black', lw=0.8)
-    ax.set_xlabel('log2 Fold Change (ALS vs Control)', fontsize=11)
+    ax.set_xlabel('log2FC (ALS vs Control)', fontsize=11)
     ax.set_title('Differential Expression in LCT:\nInflammation vs Axonal & Metabolic Integrity',
                  fontsize=13, fontweight='bold')
     ax.grid(axis='x', alpha=0.3)
