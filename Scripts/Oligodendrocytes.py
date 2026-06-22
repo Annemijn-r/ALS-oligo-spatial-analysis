@@ -272,49 +272,83 @@ def fig_oligo_heatmap(lct_deg, dorsal_deg, ventral_deg):
                 mat.loc[gene, region_name] = np.nan
     mat = mat.astype(float)
 
-    fig, ax = plt.subplots(figsize=(6, len(gene_order) * 0.28 + 1.5))
-    
-    valid_vals = mat.values[~np.isnan(mat.values)]
-    vmax = max(abs(valid_vals).max(), 0.5) if valid_vals.size > 0 else 1.0
-    
+    # Compute mean log2FC for each category across regions
+    cat_means = {}
+    for cat, genes in OLIGO_CATEGORIES.items():
+        cat_means[cat] = mat.loc[mat.index.isin(genes)].mean(axis=0)
+
+    # Build matrix with summary rows injected
+    extended_rows = []
+    row_labels = []
+    is_summary_row = []
+    row_colors = []
+
+    for cat, genes in OLIGO_CATEGORIES.items():
+        # Add individual genes
+        for g in genes:
+            extended_rows.append(mat.loc[g].values)
+            row_labels.append(g)
+            is_summary_row.append(False)
+            row_colors.append(OLIGO_CAT_COLOR[cat])
+        # Inject Summary Row
+        extended_rows.append(cat_means[cat].values)
+        row_labels.append("MEAN")
+        is_summary_row.append(True)
+        row_colors.append(OLIGO_CAT_COLOR[cat])
+
+    extended_mat = pd.DataFrame(extended_rows, index=row_labels, columns=regions.keys())
+
+    fig, ax = plt.subplots(figsize=(6.0, len(extended_mat) * 0.25 + 2))
+    vmax = max(abs(mat.values[~np.isnan(mat.values)]).max(), 0.5)
     cmap_custom = LinearSegmentedColormap.from_list(
         'als_custom',
         ['#588157', '#F5F0F0', '#C2527A'],
         N=256
     )
 
-    im = ax.imshow(mat.values, cmap=cmap_custom, aspect='auto', vmin=-vmax, vmax=vmax)
+    im = ax.imshow(extended_mat.values, cmap=cmap_custom, aspect='auto',
+                   vmin=-vmax, vmax=vmax)
 
     ax.set_xticks(range(len(regions)))
-    ax.set_xticklabels(list(regions.keys()), fontsize=9, fontweight='bold')
+    ax.set_xticklabels(list(regions.keys()), fontsize=8.5, fontweight='bold')
     
     ax.get_xticklabels()[0].set_color(COLOR_LCT)
     ax.get_xticklabels()[1].set_color(COLOR_DORSAL)
     ax.get_xticklabels()[2].set_color(COLOR_VENTRAL)
 
-    ax.set_yticks(range(len(gene_order)))
-    ax.set_yticklabels(gene_order, fontsize=8)
+    ax.set_yticks(range(len(extended_mat)))
+    ax.set_yticklabels(extended_mat.index, fontsize=7)
 
-    for ti, gene in enumerate(gene_order):
-        cat   = next((c for c, gs in OLIGO_CATEGORIES.items() if gene in gs), None)
-        color = OLIGO_CAT_COLOR.get(cat, 'black')
-        ax.get_yticklabels()[ti].set_color(color)
+    # Color labels and format fonts
+    for ti, (label, is_summary, col) in enumerate(zip(extended_mat.index, is_summary_row, row_colors)):
+        if is_summary:
+            ax.get_yticklabels()[ti].set_weight('bold')
+            ax.get_yticklabels()[ti].set_fontsize(7.5)
+        ax.get_yticklabels()[ti].set_color(col)
 
-    for i, gene in enumerate(gene_order):
+    # Overlay text values inside heatmap cells
+    for i in range(len(extended_mat)):
         for j, region in enumerate(regions.keys()):
-            val = mat.loc[gene, region]
+            val = extended_mat.iloc[i, j]
             if not np.isnan(val):
+                is_sum = is_summary_row[i]
+                font_w = 'bold' if is_sum else 'normal'
+                font_s = 7.5 if is_sum else 6.5
+                
                 ax.text(j, i, f'{val:.2f}', ha='center', va='center',
-                        fontsize=7.5, color='white' if abs(val) > vmax*0.45 else 'black',
-                        fontweight='bold')
+                        fontsize=font_s, color='white' if abs(val) > vmax*0.5 else 'black',
+                        fontweight=font_w)
 
-    sep_after = [len(MATURE_OLIGO) - 0.5, len(MATURE_OLIGO) + len(OPC_MARKERS) - 0.5]
-    for sep in sep_after:
-        ax.axhline(sep, color='white', lw=2)
+    # Visual separation lines separating the subcategory blocks
+    current_idx = 0
+    for cat, genes in OLIGO_CATEGORIES.items():
+        current_idx += len(genes) + 1  # count individual genes + the injected summary row
+        if current_idx < len(extended_mat):
+            ax.axhline(current_idx - 0.5, color='white', lw=3.0)
 
-    cbar = plt.colorbar(im, ax=ax, shrink=0.6, pad=0.08)
-    cbar.set_label('log2FC (ALS vs Control)', fontsize=9)
-    cbar.ax.tick_params(labelsize=8)
+    cbar = plt.colorbar(im, ax=ax, shrink=0.5, pad=0.08)
+    cbar.set_label('log2FC (ALS vs Control)', fontsize=8.5)
+    cbar.ax.tick_params(labelsize=7.5)
 
     legend_patches = [
         mpatches.Patch(color=COLOR_AXONAL, label='Mature oligodendrocytes'),
@@ -323,18 +357,18 @@ def fig_oligo_heatmap(lct_deg, dorsal_deg, ventral_deg):
     ]
     
     ax.legend(handles=legend_patches, 
-              bbox_to_anchor=(1.25, 0.0),  
+              bbox_to_anchor=(1.12, 0.0),  
               loc='lower left', 
-              fontsize=8, 
+              fontsize=7.5, 
               frameon=False,               
               title='Gene Categories',    
-              title_fontsize=8.5)
+              title_fontsize=8)
     ax.get_legend().get_title().set_weight('bold')
     ax.set_title('Oligodendrocyte gene expression per region\n(WM filtered)',
                  fontsize=11, fontweight='bold')
     
+    plt.tight_layout()
     save(fig, 'Figure22_oligo_heatmap.png')
-
 
 # ════════════════════════════════════════════════════════════════════════════════
 # MAIN EXECUTOR
